@@ -69,6 +69,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
 	"net/url"
 	"path"
 	"strconv"
@@ -680,6 +681,7 @@ func (t *sqsTopic) SendBatch(ctx context.Context, dms []*driver.Message) error {
 						*p = entry
 						return true
 					}
+					log.Printf("sqsv2 asFunc got unrecognized interface i with type %T, value %v", i, i)
 					return false
 				}
 				if err := dm.BeforeSend(asFunc); err != nil {
@@ -761,6 +763,7 @@ func (t *sqsTopic) SendBatch(ctx context.Context, dms []*driver.Message) error {
 					*p = entry
 					return true
 				}
+				log.Printf("sqsv1 asFunc got unrecognized interface i with type %T, value %v", i, i)
 				return false
 			}
 			if err := dm.BeforeSend(asFunc); err != nil {
